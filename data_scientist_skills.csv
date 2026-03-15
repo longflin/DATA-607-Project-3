@@ -1,0 +1,107 @@
+Company;Country;Platform;Bachelor;Masters;PhD;Communication;English;German;Statistics;ML;DL;AI;Optimization;Analytics;Visualization;Python;R;Matlab;SAS;SQL;Spark;Hadoop;Docker;Keras;Tensorflow;Pytorch;NLP;AWS;Azure
+Procter & Gamble;Switzerland;Glassdoor;0;1;0;1;1;0;1;1;0;0;1;1;0;1;0;0;0;0;1;0;0;0;0;0;0;0;0
+Philip Morris International;Switzerland;Glassdoor;0;1;0;1;0;0;1;1;0;0;0;0;0;1;1;0;0;1;0;0;0;0;0;0;0;0;0
+Swiss Re;Switzerland;Glassdoor;1;0;0;1;1;0;1;1;0;0;0;1;0;1;1;0;0;1;0;0;0;0;0;0;0;0;0
+SAP;Switzerland;Glassdoor;0;1;0;0;1;1;0;1;0;0;1;0;0;1;1;0;0;1;0;0;0;0;0;0;0;0;0
+Sigma;Switzerland;Glassdoor;0;0;0;0;0;0;0;1;1;1;0;1;1;1;1;0;0;0;0;0;0;0;0;0;0;0;0
+Swarowski;Switzerland;Glassdoor;1;0;0;0;1;0;0;0;0;0;0;1;0;1;1;1;0;0;0;0;0;0;0;0;0;0;0
+Credit Suisse;Switzerland;Glassdoor;0;1;0;1;1;1;1;1;0;0;0;1;0;1;1;0;0;1;0;0;0;0;0;0;0;0;0
+MSCI Inc. ;Switzerland;Glassdoor;0;0;0;1;0;0;0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0
+wega Informatik ;Switzerland;Glassdoor;0;1;0;1;1;1;1;1;0;0;0;1;0;0;0;0;0;1;1;1;1;0;0;0;0;0;0
+Roche;Switzerland;Glassdoor;1;1;0;1;0;0;0;0;0;0;0;0;0;1;1;0;1;1;0;0;0;0;0;0;0;0;0
+Apple;Switzerland;Glassdoor;0;1;0;0;0;0;0;1;1;0;0;0;0;1;0;0;0;0;0;0;0;1;1;1;0;0;0
+Landwell and Associes;Switzerland;Glassdoor;1;0;0;0;1;1;0;1;0;1;0;0;0;1;1;0;0;1;1;0;0;0;1;0;0;0;0
+Phonak;Switzerland;Glassdoor;0;1;0;1;0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+Richmond;Switzerland;Glassdoor;0;1;0;0;1;0;1;1;0;0;0;1;0;1;1;0;0;1;0;0;0;0;0;0;0;0;0
+UBS;Switzerland;Glassdoor;0;1;0;0;0;0;0;1;0;1;1;1;0;1;0;0;0;1;1;1;0;0;1;1;1;0;0
+Myitjob;Switzerland;Glassdoor;0;0;0;0;1;1;0;0;0;0;0;0;0;1;0;0;0;1;0;0;0;0;0;0;0;0;0
+Cisco systems;Switzerland;Glassdoor;0;0;1;0;0;0;1;1;1;1;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0
+Alpiq;Switzerland;Glassdoor;0;1;0;0;1;0;0;1;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+IPT;Switzerland;Glassdoor;1;0;0;0;1;1;0;0;0;0;0;0;0;1;1;0;0;0;0;0;0;0;0;0;0;0;0
+EY;Switzerland;Glassdoor;1;0;0;0;0;0;0;1;0;0;0;0;0;1;1;0;0;1;0;0;0;0;0;0;0;0;0
+Spiden;Switzerland;Linkedin;0;1;0;0;0;0;0;1;1;0;0;1;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0
+Experis;Switzerland;Linkedin;0;0;0;0;0;1;0;0;0;0;0;0;0;1;1;0;0;0;0;0;0;0;0;0;0;0;0
+Nispera;Switzerland;Linkedin;0;1;0;1;1;0;0;1;0;0;0;1;1;1;0;0;0;1;0;0;0;0;0;0;0;0;0
+Reifeisen;Switzerland;Linkedin;1;0;0;0;0;1;1;0;0;0;0;0;0;1;1;0;0;1;1;0;1;0;0;0;0;0;0
+DigiTech Search;Switzerland;Linkedin;0;1;0;0;1;1;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1;1;0
+Nordwand Group AG;Switzerland;Linkedin;1;0;0;1;0;0;0;0;0;0;0;0;0;1;1;0;0;1;0;0;0;0;0;0;0;0;0
+Hays;Switzerland;Linkedin;1;0;0;0;1;0;0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;1;0;0;0;0
+CyberPiece Institute;Switzerland;Linkedin;0;0;0;1;0;0;0;1;1;0;0;0;0;0;0;0;0;1;1;1;0;0;0;0;0;1;1
+IT recruitment company;Switzerland;Linkedin;1;0;0;0;0;0;0;0;0;0;0;1;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0
+NAGRA;Switzerland;Linkedin;0;0;0;1;1;0;1;1;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0
+Valora digital;Switzerland;StackOverflow;1;0;0;0;1;1;0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0
+FELFEL;Switzerland;StackOverflow;1;0;0;0;1;0;0;0;0;0;0;0;0;1;0;0;0;1;0;0;1;0;0;0;0;0;0
+ARTIDIS AG;Switzerland;StackOverflow;0;1;0;0;0;0;1;1;0;0;0;0;0;1;0;0;0;1;0;0;0;0;0;0;0;1;0
+Jumio;Austria;Glassdoor;0;0;0;1;1;0;0;1;1;0;0;1;0;1;0;0;0;0;0;0;0;1;1;1;0;0;0
+Runtastic;Austria;Glassdoor;0;1;0;1;1;0;0;1;0;0;0;0;0;1;0;0;0;1;1;0;0;0;0;0;0;1;1
+PlanRadar;Austria;Glassdoor;1;0;0;1;1;1;0;1;0;0;0;0;0;1;1;0;0;1;1;1;0;0;0;0;0;0;0
+PMC International;Austria;Glassdoor;1;0;0;0;1;0;0;0;0;0;0;1;0;1;1;1;0;0;0;0;0;0;0;0;0;0;0
+Hutchinson Drei;Austria;Glassdoor;1;0;0;0;0;0;1;1;0;0;0;1;0;0;1;0;0;1;0;1;0;0;0;0;0;0;0
+AT&S;Austria;Glassdoor;1;0;0;0;1;1;0;1;0;0;1;0;0;1;1;0;0;1;0;1;0;0;0;0;0;0;0
+CompuGroup Medical;Austria;Glassdoor;1;0;0;0;0;0;0;0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0
+Solicon IT;Austria;Glassdoor;1;0;0;0;0;0;1;0;0;0;0;1;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+Wiener Linien;Austria;Glassdoor;1;0;0;0;1;1;1;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+Client Server;Austria;Glassdoor;0;0;0;0;1;1;0;1;1;1;0;0;0;1;0;0;0;1;0;0;1;0;0;0;0;0;0
+Solgenium;Austria;Glassdoor;1;0;0;0;0;0;1;0;0;0;0;1;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0
+Mostly AI;Austria;Glassdoor;0;0;0;0;1;1;0;0;1;1;0;1;0;1;1;0;0;0;1;0;0;0;1;0;0;0;0
+Sberbank;Austria;Glassdoor;1;0;0;0;1;1;0;0;0;0;0;0;0;0;0;0;1;1;0;0;0;0;0;0;0;0;0
+Swarowski;Austria;Glassdoor;0;0;0;1;1;0;0;0;0;0;0;1;1;1;1;1;1;1;1;1;0;0;1;0;0;0;0
+IST Austria;Austria;Glassdoor;1;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1;1;0;0;0
+7LYTIX;Austria;Glassdoor;1;0;0;0;0;0;0;0;0;0;0;0;0;1;0;0;0;1;1;1;0;1;1;1;0;0;0
+KBC Energy;Austria;Glassdoor;0;0;0;0;1;1;0;0;0;0;0;0;0;1;0;1;0;1;0;0;0;0;0;0;0;0;0
+Capgemini;Austria;Glassdoor;1;0;0;0;1;1;0;1;0;1;0;0;0;1;1;0;0;0;0;0;0;0;0;0;0;0;0
+Hays;Austria;Glassdoor;1;0;0;0;1;1;0;0;0;1;0;1;0;1;1;0;0;0;0;0;0;0;0;0;0;0;0
+Sibling;Austria;Linkedin;1;0;0;0;0;0;0;1;0;0;0;0;1;1;0;0;0;0;0;0;0;0;0;0;0;0;0
+Moyyn;Austria;Linkedin;0;0;0;1;0;0;1;1;0;0;0;0;0;1;1;0;0;1;0;0;0;0;0;0;0;0;0
+softwareXperts;Austria;Linkedin;1;0;0;1;1;1;0;1;0;0;0;0;0;1;1;0;0;1;1;1;0;0;0;0;0;0;0
+KMPG Deutschland;Austria;Linkedin;1;0;0;0;1;1;0;1;0;0;0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0
+Technolopolis Plc;Austria;Linkedin;1;0;0;0;0;0;1;1;0;0;0;0;0;1;1;0;0;0;0;0;0;0;0;0;1;0;0
+Sartorius;Austria;Linkedin;0;1;0;1;1;1;0;0;0;0;0;0;0;1;0;1;0;0;0;0;0;0;0;0;0;0;0
+RateBoard;Austria;Linkedin;1;0;0;0;0;0;1;1;0;0;0;0;0;1;1;0;0;0;0;0;0;0;0;0;0;0;0
+Software Competence Competence Hagenberg;Austria;Linkedin;0;1;0;0;1;1;0;1;1;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;1;0;0
+FERCHAU;Austria;Linkedin;1;0;0;0;1;1;0;1;0;0;0;0;0;1;0;0;0;0;0;0;0;0;1;0;0;0;0
+Emersys;Austria;Linkedin;1;0;0;0;1;0;0;0;0;0;0;1;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0
+Exputec;Austria;StackOverflow;0;1;0;0;1;0;1;0;0;0;0;1;0;1;1;0;0;0;0;0;0;0;0;0;0;0;0
+Komoot;Germany;StackOverflow;0;0;0;0;0;0;1;1;0;0;0;0;1;1;0;0;0;1;1;1;0;1;1;1;0;1;0
+Audatic;Germany;StackOverflow;0;1;0;1;0;0;0;0;1;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0
+Eurowings Digital;Germany;StackOverflow;1;0;0;1;0;0;0;0;0;0;0;0;0;1;1;0;0;1;1;0;0;0;0;0;0;0;0
+IAV;Germany;StackOverflow;0;0;0;0;0;1;1;1;1;1;0;1;0;0;0;0;0;1;0;0;0;1;1;1;0;0;0
+PAIR Finance;Germany;StackOverflow;0;0;0;1;1;1;1;1;0;0;0;0;0;1;0;0;0;1;0;0;0;0;0;0;0;0;0
+Reply;Germany;Glassdoor;1;0;0;0;1;1;0;1;0;0;0;0;0;1;1;0;0;0;0;0;0;0;0;0;0;0;0
+Wargaming;Germany;Glassdoor;1;0;0;0;1;0;0;1;0;1;0;0;0;1;1;0;0;1;0;0;0;0;0;0;0;0;0
+Brainlab;Germany;Glassdoor;1;0;0;0;1;1;0;1;0;0;0;1;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0
+REE;Germany;Glassdoor;1;0;0;0;0;0;0;1;0;0;0;0;0;1;1;1;0;0;0;0;0;0;0;0;0;0;0
+Brunel;Germany;Glassdoor;1;0;0;0;1;1;1;1;0;0;0;1;0;1;1;1;0;1;0;1;0;0;0;0;0;0;0
+Real,-;Germany;Glassdoor;1;0;0;0;1;0;0;1;0;1;0;0;0;1;0;0;0;0;0;0;1;1;1;0;1;0;0
+JUST ADD AI;Germany;Glassdoor;0;1;0;0;0;0;1;1;1;0;0;0;0;1;1;1;1;0;0;0;0;0;0;0;1;0;0
+Siemens Healthineers;Germany;Glassdoor;1;0;0;0;1;0;0;0;0;0;0;0;0;1;1;0;0;1;0;0;0;0;0;0;0;1;0
+JetBrains;Germany;Glassdoor;1;0;0;0;1;0;1;0;0;0;0;0;0;1;1;0;0;0;0;0;0;0;0;0;0;0;0
+Wooga;Germany;Glassdoor;1;0;0;0;0;0;1;1;0;0;0;0;0;1;0;0;0;1;0;0;0;0;0;0;0;0;0
+ORAYLIS;Germany;Glassdoor;1;0;0;0;1;1;1;1;0;0;0;0;0;1;1;0;0;1;0;0;0;0;0;0;0;0;0
+Publicis Groupe;Germany;Glassdoor;1;0;0;1;0;0;0;0;0;0;0;1;0;1;1;0;0;1;0;0;0;0;0;0;0;0;0
+BioNTech;Germany;Glassdoor;1;0;0;0;1;1;0;0;0;0;0;1;0;1;0;0;1;0;0;0;0;0;0;0;0;0;0
+FlintData;Germany;Glassdoor;1;0;0;0;0;0;1;1;0;1;0;0;0;1;1;0;0;1;0;1;0;0;0;0;0;0;0
+Signal Iduna;Germany;Glassdoor;1;0;0;1;0;0;0;0;0;0;0;1;0;1;1;1;0;0;1;1;0;0;0;0;0;0;0
+Koniag;Germany;Glassdoor;0;1;0;1;0;0;0;1;1;0;0;0;1;1;1;0;0;1;0;0;0;0;0;0;0;1;0
+Trakken Web Services;Germany;Glassdoor;1;0;0;0;1;1;0;1;0;0;0;1;0;1;1;0;0;0;0;0;0;0;0;0;0;0;0
+Codepan;Germany;Glassdoor;0;0;1;0;0;0;1;1;0;0;0;0;0;1;0;0;0;1;0;0;0;0;1;1;0;0;0
+EDEKA Handelsgesellschaft Südwest;Germany;Glassdoor;1;0;0;0;0;0;0;0;0;0;0;0;0;1;1;0;0;1;0;0;0;0;0;0;0;0;0
+PATRIZIA;Germany;Glassdoor;0;1;0;0;0;0;0;0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0
+Abbvie;Germany;Glassdoor;1;0;0;0;1;0;0;1;0;0;0;1;0;1;1;0;0;0;0;0;0;0;0;0;0;0;0
+Hundred;Germany;Glassdoor;0;0;0;0;0;0;0;0;0;0;0;0;0;1;1;0;0;1;0;0;1;0;0;0;0;0;0
+PALTRON;Germany;Glassdoor;1;0;0;0;0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+Bechtle;Germany;Glassdoor;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0
+NEW YORKER Group-Services;Germany;Glassdoor;1;0;0;0;0;0;1;1;0;0;0;0;0;1;0;0;0;1;1;1;0;0;1;1;0;0;0
+Hanwha Q Cells;Germany;Glassdoor;0;1;0;1;1;1;0;1;0;0;0;0;0;1;1;0;0;1;0;0;0;0;0;0;0;0;0
+solexas;Germany;Glassdoor;1;0;0;0;1;1;1;1;0;0;0;0;0;1;0;0;0;1;0;0;0;0;0;0;0;0;0
+xValue;Germany;Glassdoor;1;0;0;0;1;1;0;1;0;0;0;0;0;1;1;0;1;0;0;0;0;0;0;0;0;0;0
+Stiftung Neue Verantwortung;Germany;Glassdoor;1;0;0;0;1;1;0;0;0;0;0;0;0;1;1;0;0;0;0;0;0;0;1;0;0;0;0
+Siemens;Germany;Glassdoor;1;0;0;1;1;0;0;0;0;0;0;0;0;1;1;0;0;1;0;0;0;0;0;0;0;1;0
+Clue;Germany;Glassdoor;0;0;0;0;0;0;0;0;0;0;0;1;0;1;0;0;0;1;0;0;0;0;0;0;0;0;0
+targens;Germany;Glassdoor;1;0;0;0;0;0;1;1;0;0;0;1;0;1;1;0;0;1;0;0;0;0;0;0;1;0;0
+P3 group;Germany;Glassdoor;1;0;0;0;0;0;0;1;0;0;0;0;0;1;0;0;0;1;0;0;0;0;0;0;0;0;0
+Cluster Reply;Germany;Glassdoor;1;0;0;0;1;1;0;1;0;0;0;0;0;1;1;0;0;0;0;0;0;0;0;0;0;0;0
+CosmosDirekt;Germany;Glassdoor;1;0;0;1;0;0;0;0;0;0;0;0;0;1;1;0;0;1;0;0;0;0;0;0;0;0;0
+Talentschmiede Unternehmensberatung;Germany;Glassdoor;1;0;0;0;0;0;0;0;0;0;0;0;0;1;1;0;0;0;0;0;0;0;0;0;0;0;0
+AKKA Technologies;Germany;Glassdoor;1;0;0;0;0;0;0;0;0;0;0;0;0;1;1;0;0;1;0;0;0;0;0;0;0;0;0
+Porsche;Germany;Glassdoor;1;0;0;0;1;1;0;1;0;0;1;0;0;1;0;0;0;0;0;0;0;0;1;1;0;1;0
