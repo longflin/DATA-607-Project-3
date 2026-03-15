@@ -26,9 +26,9 @@ https://raw.githubusercontent.com/longflin/DATA-607-Project-3/refs/heads/main/Gl
 
 For this assignment, we'll use the datasets from the kaggle, linked above. We'll load the datasets from the raw files on GitHub. We'll also look into scraping data from Indeed as well. For collaboration tools, we'll use GitHub, Google Meet, and Lucid Chart.
 
-![](images/clipboard-682991854.png)
+![](https://imgur.com/lzfkth1)
 
-This is the ERD we created for the database design.
+The ERD we created for the database design is also uploaded to github.
 
 We plan on tidying the data and putting the data into the database using SQL. From there we'll analyze the data in order to figure out the most popular skills required for Data Science jobs.
 
