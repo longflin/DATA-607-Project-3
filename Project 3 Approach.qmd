@@ -18,7 +18,7 @@ Long Lin, Emily Elmouaquite, ZIHAO YU, Pascal Hermann Kouogang Tafo
 
 https://raw.githubusercontent.com/longflin/DATA-607-Project-3/refs/heads/main/data_scientist_skills.csv
 
-**Second Data Source**: https://www.kaggle.com/datasets/fahadrehman07/data-science-jobs-and-salary-glassdoor?select=glassdoor_jobs.csv
+**Second Data Source**: https://www.kaggle.com/datasets/fahadrehman07/data-science-jobs-and-salary-glassdoor?select=Glassdoor_Salary_Cleaned_Version.csv
 
 https://raw.githubusercontent.com/longflin/DATA-607-Project-3/refs/heads/main/Glassdoor_Salary_Cleaned_Version.csv
 
