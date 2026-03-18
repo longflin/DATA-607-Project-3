@@ -1,0 +1,238 @@
+---
+title: "Project 3"
+format: html
+editor: visual
+---
+
+## Project 3 Code Base Submission
+
+------------------------------------------------------------------------
+
+### Group Members:
+
+Long Lin, Emily Elmouaquite, ZIHAO YU, Pascal Hermann Kouogang Tafo
+
+------------------------------------------------------------------------
+
+**First Data Source**: https://www.kaggle.com/datasets/joerakhimov/data-scientist-skills
+
+https://raw.githubusercontent.com/longflin/DATA-607-Project-3/refs/heads/main/data_scientist_skills.csv
+
+**Second Data Source**: https://www.kaggle.com/datasets/fahadrehman07/data-science-jobs-and-salary-glassdoor?select=glassdoor_jobs.csv
+
+https://raw.githubusercontent.com/longflin/DATA-607-Project-3/refs/heads/main/Glassdoor_Salary_Cleaned_Version.csv
+
+------------------------------------------------------------------------
+
+## First Data Source
+
+For the first data source, we grabbed a dataset from kaggle on data scientist skills.
+
+```{r}
+library(tidyverse)
+
+url <- "https://raw.githubusercontent.com/longflin/DATA-607-Project-3/refs/heads/main/data_scientist_skills.csv"
+
+df <- read_csv2(
+  file = url,
+  show_col_types = FALSE,
+  progress = FALSE
+)
+
+head(df)
+```
+
+```{r}
+long_df <- df |>
+  pivot_longer(
+    cols = c(Statistics:Azure),
+    names_to = "Skills",
+    values_to = "Value"
+  )
+
+head(long_df)
+```
+
+```{r}
+library(dplyr)
+# Remove unncessary columns
+subset_df <- select(long_df, -Platform, -Bachelor, -Masters, -PhD, -Communication, -English, -German)
+head(subset_df)
+```
+
+```{r}
+subset_without_0s_df <- subset_df[subset_df$Value != 0, ]
+head(subset_without_0s_df)
+```
+
+```{r}
+subset_without_skills_column_df <- select(subset_without_0s_df, -Value)
+head(subset_without_skills_column_df)
+```
+
+```{r}
+subset_add_job_title_df <- subset_without_skills_column_df
+
+
+subset_add_job_title_df <- subset_without_skills_column_df |>
+  mutate(
+    `Job Title` = "Data Scientist"
+  ) %>%
+  relocate(`Job Title`, .before = 1)
+
+head(subset_add_job_title_df)
+```
+
+## Second Data Source
+
+```{r}
+library(tidyverse)
+
+url2 <- "https://raw.githubusercontent.com/longflin/DATA-607-Project-3/refs/heads/main/Glassdoor_Salary_Cleaned_Version.csv"
+
+df2 <- read_csv(
+  file = url2,
+  show_col_types = FALSE,
+  progress = FALSE
+)
+
+head(df2)
+```
+
+```{r}
+df2_rename_columns <- rename(df2, Python = python_yn, R = R_yn, Spark = spark, AWS = aws, Excel = excel)
+
+head(df2_rename_columns)
+```
+
+```{r}
+long_df2 <- df2_rename_columns |>
+  pivot_longer(
+    cols = c(Python:Excel),
+    names_to = "Skills",
+    values_to = "Value"
+  )
+
+head(long_df2)
+```
+
+```{r}
+library(dplyr)
+# Remove unncessary columns
+subset_df2 <- select(long_df2, -"Salary Estimate", -"Job Description", -Rating, -Headquarters, -Size, -Founded, -"Type of ownership", -Industry, -Sector, -Revenue, -Competitors, -hourly, -employer_provided, -min_salary, -max_salary, -avg_salary, -company_txt, -job_state, -same_state, -age)
+head(subset_df2)
+```
+
+```{r}
+subset_without_0s_df2 <- subset_df2[subset_df2$Value != 0, ]
+head(subset_without_0s_df2)
+```
+
+```{r}
+subset_without_skills_column_df2 <- select(subset_without_0s_df2, -Value)
+head(subset_without_skills_column_df2)
+```
+
+```{r}
+library(stringr)
+subset_without_skills_column_df2$`has_data_in_name` <- str_detect(subset_without_skills_column_df2$`Job Title`, "Data")
+head(subset_without_skills_column_df2)
+# subset_without_jobs_missing_data_in_name_df <- subset_without_skills_column_df2[subset_without_skills_column_df2$`Job Title`.contains("Data"), ]
+```
+
+```{r}
+subset_without_jobs_missing_data_in_name_df <- subset_without_skills_column_df2[subset_without_skills_column_df2$has_data_in_name != FALSE, ]
+head(subset_without_jobs_missing_data_in_name_df)
+```
+
+```{r}
+df2_final <- select(subset_without_jobs_missing_data_in_name_df, -has_data_in_name)
+
+df1_final <- rename(subset_add_job_title_df, "Company Name" = Company, Location = Country)
+
+head(df2_final)
+head(df1_final)
+```
+
+## Join Data Frames
+
+```{r}
+library(dplyr)
+
+combined_df <- rbind(df1_final, df2_final)
+
+head(combined_df)
+colnames(combined_df)
+
+```
+
+## Database
+
+```{r}
+#Create database tables
+#Job
+jobTable <- combined_df %>%
+  distinct(`Job Title`, `Company Name`, Location) %>%
+  mutate(jobId = row_number()) %>%
+  rename(jobName = `Job Title`)
+#Skill
+skillTable <- combined_df %>%
+  distinct(Skills) %>%
+  mutate(skillId = row_number()) %>%
+  rename(skillName = Skills)
+#jobSkill
+jobSkillTable <- combined_df %>%
+  left_join(jobTable,
+            by = c("Job Title" = "jobName",
+                   "Company Name",
+                   "Location")) %>%
+  left_join(skillTable,
+            by = c("Skills" = "skillName")) %>%
+  select(jobId, skillId) %>%
+  distinct()
+
+#Load database/ SQL libraries
+library(DBI)
+library(RSQLite)
+
+#Connect to database
+con <- dbConnect(SQLite(), "ds_jobs.db")
+
+#Create db tables
+dbExecute(con, "
+CREATE TABLE job (
+  jobId INTEGER PRIMARY KEY,
+  jobName TEXT,
+  location TEXT
+);
+")
+dbExecute(con, "
+CREATE TABLE skill (
+  skillId INTEGER PRIMARY KEY,
+  skillName TEXT
+);
+")
+dbExecute(con, "
+CREATE TABLE jobSkill (
+  jobId INTEGER,
+  skillId INTEGER,
+  PRIMARY KEY (jobId, skillId),
+  FOREIGN KEY (jobId) REFERENCES Job(jobId),
+  FOREIGN KEY (skillId) REFERENCES Skill(skillId)
+);
+")
+
+#Populate tables with data
+dbWriteTable(con, "job", jobTable %>% select(jobId, jobName, Location), append = TRUE)
+dbWriteTable(con, "skill", skillTable %>% select(skillId, skillName), append = TRUE)
+dbWriteTable(con, "jobSkill", jobSkillTable, append = TRUE)
+
+#Check
+DBI::dbListTables(con)
+DBI::dbReadTable(con, "job")
+DBI::dbReadTable(con, "skill") 
+DBI::dbReadTable(con, "jobSkill") 
+```
+
+
+## Analysis
