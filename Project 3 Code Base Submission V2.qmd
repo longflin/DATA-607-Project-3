@@ -226,13 +226,14 @@ CREATE TABLE jobSkill (
 dbWriteTable(con, "job", jobTable %>% select(jobId, jobName, Location), append = TRUE)
 dbWriteTable(con, "skill", skillTable %>% select(skillId, skillName), append = TRUE)
 dbWriteTable(con, "jobSkill", jobSkillTable, append = TRUE)
+```
 
+```{r}
 #Check
 DBI::dbListTables(con)
 DBI::dbReadTable(con, "job")
 DBI::dbReadTable(con, "skill") 
 DBI::dbReadTable(con, "jobSkill") 
 ```
-
 
 ## Analysis
