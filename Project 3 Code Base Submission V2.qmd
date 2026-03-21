@@ -291,3 +291,33 @@ combined_df %>%
 ```
 
 Based on the plot above for the combined data set, we're able to see the top 10 skills that are in demand. Python is the clear leader with Excel and Spark as the second and third most in demand, respectively.
+
+
+
+```{r}
+
+ggplot(viz_data, aes(x = reorder(Skills, Frequency), y = Frequency, fill = Cluster)) +
+  geom_bar(stat = "identity", alpha = 0.85) +
+  geom_text(aes(label = Frequency),          # <-- add this
+            hjust = -0.2, 
+            size = 3.5, 
+            color = "gray30") +
+  coord_flip() +
+  facet_grid(Cluster ~ ., scales = "free_y", space = "free_y") +
+  scale_fill_manual(values = c(
+    "Agentic & Advanced AI"  = "#E63946", 
+    "Cloud & Infrastructure" = "#1D3557", 
+    "Core Data Foundations"  = "#A8DADC"
+  )) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +  # <-- add this
+  labs(
+    title    = "Valuable Skills Demand By Category",
+    subtitle = "Strategic clustering of data science requirements",
+    x        = "Specific Skill",
+    y        = "Frequency in Dataset"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(strip.text.y   = element_text(angle = 0, face = "bold"),
+        legend.position = "none")
+
+```
