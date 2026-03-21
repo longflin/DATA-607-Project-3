@@ -252,3 +252,5 @@ combined_df %>%
   labs(title = "Top 10 Most Demanded Skills", x = "Skill", y = "Frequency")+
   theme_minimal()
 ```
+
+Based on the plot above for the combined data set, we're able to see the top 10 skills that are in demand. Python is the clear leader with Excel and Spark as the second and third most in demand, respectively.
