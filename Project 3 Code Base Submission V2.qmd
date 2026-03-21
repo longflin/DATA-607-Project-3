@@ -296,9 +296,27 @@ Based on the plot above for the combined data set, we're able to see the top 10 
 
 ```{r}
 
-ggplot(viz_data, aes(x = reorder(Skills, Frequency), y = Frequency, fill = Cluster)) +
+library(ggplot2)
+library(dplyr)
+
+# 1. Aggregate frequencies from the raw combined data
+# This ensures we have both the "Skills" and "Frequency" columns
+
+skill_counts <- combined_df %>%
+  group_by(Skills) %>%
+  summarise(Frequency = n(), .groups = "drop")
+
+# 2. Join with the 2026 Skill Framework to add the Cluster variable
+plot_ready_data <- skill_counts %>%
+  left_join(skill_framework, by = "Skills") %>%
+  # Remove any skills not categorized in our 2026 clusters
+  filter(!is.na(Cluster))
+
+# 3. Run the Visualization
+
+ggplot(plot_ready_data, aes(x = reorder(Skills, Frequency), y = Frequency, fill = Cluster)) +
   geom_bar(stat = "identity", alpha = 0.85) +
-  geom_text(aes(label = Frequency),          # <-- add this
+  geom_text(aes(label = Frequency), 
             hjust = -0.2, 
             size = 3.5, 
             color = "gray30") +
@@ -309,15 +327,20 @@ ggplot(viz_data, aes(x = reorder(Skills, Frequency), y = Frequency, fill = Clust
     "Cloud & Infrastructure" = "#1D3557", 
     "Core Data Foundations"  = "#A8DADC"
   )) +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +  # <-- add this
+  # Use expansion to ensure the numeric labels fit on the screen
+  
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) + 
   labs(
     title    = "Valuable Skills Demand By Category",
-    subtitle = "Strategic clustering of data science requirements",
+    subtitle = "Strategic clustering of data science requirements ",
     x        = "Specific Skill",
     y        = "Frequency in Dataset"
   ) +
   theme_minimal(base_size = 13) +
   theme(strip.text.y   = element_text(angle = 0, face = "bold"),
         legend.position = "none")
-
 ```
+Based on this chart result, while the core foundational skills like Python and Excel remain the most frequent requirements in job postings, the market is strategically pivoting toward specialized clusters in Agentic AI and Cloud Infrastructure.
+
+
+
