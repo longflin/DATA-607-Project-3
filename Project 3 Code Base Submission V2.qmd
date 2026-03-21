@@ -237,3 +237,13 @@ DBI::dbReadTable(con, "jobSkill")
 ```
 
 ## Analysis
+
+```{r}
+combined_df |>
+  count(Skills, sort = TRUE) |>
+  head(10) %>%
+  ggplot(aes(x = reorder(Skills, n), y = n)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  labs(title = "Top 10 Most Demanded Skills", x = "Skill", y = "Frequency")
+```
