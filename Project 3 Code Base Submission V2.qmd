@@ -28,138 +28,175 @@ https://raw.githubusercontent.com/longflin/DATA-607-Project-3/refs/heads/main/Gl
 
 For the first data source, we grabbed a dataset from kaggle on data scientist skills.
 
+We created a data frame from first data source by reading in the .csv file.
+
 ```{r}
 library(tidyverse)
 
 url <- "https://raw.githubusercontent.com/longflin/DATA-607-Project-3/refs/heads/main/data_scientist_skills.csv"
 
-df <- read_csv2(
+ds_skills <- read_csv2(
   file = url,
   show_col_types = FALSE,
   progress = FALSE
 )
 
-head(df)
+head(ds_skills)
 ```
 
+Next, we transformed the data from a wide data format to a long data format using pivot_longer on the columns pertaining to skills.
+
 ```{r}
-long_df <- df |>
+ds_skills_long <- ds_skills |>
   pivot_longer(
     cols = c(Statistics:Azure),
     names_to = "Skills",
     values_to = "Value"
   )
 
-head(long_df)
+head(ds_skills_long)
 ```
+
+Next, we removed the columns with information that we were not interested in using the select function.
 
 ```{r}
 library(dplyr)
-# Remove unncessary columns
-subset_df <- select(long_df, -Platform, -Bachelor, -Masters, -PhD, -Communication, -English, -German)
-head(subset_df)
+# Remove unncessary columns from ds_skills_long
+ds_subset <- select(ds_skills_long, -Platform, -Bachelor, -Masters, -PhD, -Communication, -English, -German)
+head(ds_subset)
 ```
 
+Next, we removed the rows that had a `0` in the `Value` column because the job did not require the skill.
+
 ```{r}
-subset_without_0s_df <- subset_df[subset_df$Value != 0, ]
-head(subset_without_0s_df)
+ds_subset_remove_0s <- ds_subset[ds_subset$Value != 0, ]
+head(ds_subset_remove_0s)
 ```
 
+Next, we removed the `Value` Column altogether because all of the values in that column were `1`.
+
 ```{r}
-subset_without_skills_column_df <- select(subset_without_0s_df, -Value)
-head(subset_without_skills_column_df)
+ds_subset_remove_value_column <- select(ds_subset_remove_0s, -Value)
+head(ds_subset_remove_value_column)
 ```
 
+Next, we added a column named `Job Title` and assigned a value of `Data Scientist` to each of the rows because the data source is about data scientist jobs.
+
 ```{r}
-subset_add_job_title_df <- subset_without_skills_column_df
-
-
-subset_add_job_title_df <- subset_without_skills_column_df |>
+ds_job_title <- ds_subset_remove_value_column |>
   mutate(
     `Job Title` = "Data Scientist"
   ) %>%
   relocate(`Job Title`, .before = 1)
 
-head(subset_add_job_title_df)
+head(ds_job_title)
 ```
 
 ## Second Data Source
+
+For the second data source, we created a dataframe from the .csv file.
 
 ```{r}
 library(tidyverse)
 
 url2 <- "https://raw.githubusercontent.com/longflin/DATA-607-Project-3/refs/heads/main/Glassdoor_Salary_Cleaned_Version.csv"
 
-df2 <- read_csv(
+glassdoor_skills <- read_csv(
   file = url2,
   show_col_types = FALSE,
   progress = FALSE
 )
 
-head(df2)
+head(glassdoor_skills)
 ```
 
-```{r}
-df2_rename_columns <- rename(df2, Python = python_yn, R = R_yn, Spark = spark, AWS = aws, Excel = excel)
+Next, we renamed the columns in the data frame to match with the first data frame's format for the same skills.
 
-head(df2_rename_columns)
+```{r}
+glassdoor_skills_rename_columns <- rename(glassdoor_skills, Python = python_yn, R = R_yn, Spark = spark, AWS = aws, Excel = excel)
+
+head(glassdoor_skills_rename_columns)
 ```
 
+Next, we used the `pivot_longer` function to convert the data frame from a wide format to a long format.
+
 ```{r}
-long_df2 <- df2_rename_columns |>
+glassdoor_skills_long <- glassdoor_skills_rename_columns |>
   pivot_longer(
     cols = c(Python:Excel),
     names_to = "Skills",
     values_to = "Value"
   )
 
-head(long_df2)
+head(glassdoor_skills_long)
 ```
+
+Next, we removed the columns that we were not interested in using the `select` function.
 
 ```{r}
 library(dplyr)
 # Remove unncessary columns
-subset_df2 <- select(long_df2, -"Salary Estimate", -"Job Description", -Rating, -Headquarters, -Size, -Founded, -"Type of ownership", -Industry, -Sector, -Revenue, -Competitors, -hourly, -employer_provided, -min_salary, -max_salary, -avg_salary, -company_txt, -job_state, -same_state, -age)
-head(subset_df2)
+glassdoor_subset <- select(glassdoor_skills_long, -"Salary Estimate", -"Job Description", -Rating, -Headquarters, -Size, -Founded, -"Type of ownership", -Industry, -Sector, -Revenue, -Competitors, -hourly, -employer_provided, -min_salary, -max_salary, -avg_salary, -company_txt, -job_state, -same_state, -age)
+
+head(glassdoor_subset)
 ```
 
-```{r}
-subset_without_0s_df2 <- subset_df2[subset_df2$Value != 0, ]
-head(subset_without_0s_df2)
-```
+Next, we removed the rows that had a `Value` of `0`.
 
 ```{r}
-subset_without_skills_column_df2 <- select(subset_without_0s_df2, -Value)
-head(subset_without_skills_column_df2)
+glassdoor_subset_remove_0s <- glassdoor_subset[glassdoor_subset$Value != 0, ]
+
+head(glassdoor_subset_remove_0s)
 ```
+
+Next, we removed the `Value` column because the only rows remaining had a `Value` of `1`.
+
+```{r}
+glassdoor_remove_value_column <- select(glassdoor_subset_remove_0s, -Value)
+
+head(glassdoor_remove_value_column)
+```
+
+Next, we filtered jobs based on if they had the word `data` in the `Job Title` or not, in order to get relevant job listings. We did this using the `stringr` library and the `str_detect` function.
 
 ```{r}
 library(stringr)
-subset_without_skills_column_df2$`has_data_in_name` <- str_detect(subset_without_skills_column_df2$`Job Title`, "Data")
-head(subset_without_skills_column_df2)
-# subset_without_jobs_missing_data_in_name_df <- subset_without_skills_column_df2[subset_without_skills_column_df2$`Job Title`.contains("Data"), ]
+glassdoor_remove_value_column$`has_data_in_name` <- str_detect(glassdoor_remove_value_column$`Job Title`, "Data")
+
+head(glassdoor_remove_value_column)
 ```
 
+Next, we removed the columns that did not have the word `data` in the `Job Title`.
+
 ```{r}
-subset_without_jobs_missing_data_in_name_df <- subset_without_skills_column_df2[subset_without_skills_column_df2$has_data_in_name != FALSE, ]
-head(subset_without_jobs_missing_data_in_name_df)
+glassdoor_data_jobs_remove_false <- glassdoor_remove_value_column[glassdoor_remove_value_column$has_data_in_name != FALSE, ]
+
+head(glassdoor_data_jobs_remove_false)
 ```
 
+Next, we removed the `has_data_in_name` column because the value is `TRUE` for all of the rows since we removed the columns that had a value of `FALSE`.
+
 ```{r}
-df2_final <- select(subset_without_jobs_missing_data_in_name_df, -has_data_in_name)
+glassdoor_final <- select(glassdoor_data_jobs_remove_false, -has_data_in_name)
 
-df1_final <- rename(subset_add_job_title_df, "Company Name" = Company, Location = Country)
-
-head(df2_final)
-head(df1_final)
+head(glassdoor_final)
 ```
 
 ## Join Data Frames
 
+Before joining the data frames, we made the format of the first data frame similar to that of the second data frame.
+
+```{r}
+ds_final <- rename(ds_job_title, "Company Name" = Company, Location = Country)
+head(ds_final)
+```
+
+Next, we joined the two data frames using the `dplyr` library and the `rbind` function.
+
 ```{r}
 library(dplyr)
 
-combined_df <- rbind(df1_final, df2_final)
+combined_df <- rbind(ds_final, glassdoor_final)
 
 head(combined_df)
 colnames(combined_df)
