@@ -24,6 +24,10 @@ https://raw.githubusercontent.com/longflin/DATA-607-Project-3/refs/heads/main/Gl
 
 ------------------------------------------------------------------------
 
+## Introduction
+
+In this project, we are interested in finding the most valuable data science skills for data science jobs. In order to figure out these skills, we'll take data from online sources like Kaggle to create a data set of the various skills mentioned in job postings. Then, we'll parse the data into data frames and plot the data in order to provide analysis on the data. In the end, we should have a better idea of what skills are relevant for the data science job market and will be able to prioritize gaining the desired skills in our own skillset to match the market demands.
+
 ## First Data Source
 
 For the first data source, we grabbed a dataset from kaggle on data scientist skills.
@@ -393,7 +397,9 @@ ggplot(dfForPlotProp, aes(x = reorder(Skills, prop), y = prop, fill = Year)) +
 The plot shows the commonly shared skills found within both of the data sets, and the proportion of jobs that required them. The first data source that we used was from 2020, while the second one was from 2024. In both years, about half of the jobs required Python. The proportion of jobs requiring Spark increased from 2020, when about 9% of jobs required it, to 2024, when about 24% of jobs required it. Similarly, the proportion of jobs requiring AWS increased from 5% to 23%. On the other hand, the proportion of jobs requiring R decreased from 33% in 2020, to 0% in 2024 based on this selection of jobs.
 
 ### A Comparative Analysis of Skills Needs Across Different Countries
+
 ```{r}
+library(tidytext)
 location_list <-
   combined_df |>
   filter(!is.na(Location), Location != "") |>
@@ -467,4 +473,7 @@ By comparing the skills across the four countries, although there are difference
 In the U.S., only two states reported a need for R, whereas in the other three countries, R ranked relatively high—second in both Austria and Germany; in the U.S., Excel ranked second.
 
 ## Conclusion
-The results of our exploratory analysis show that Python seems to be the most valued data science skill. It is the most valued skill, not only overall, but also in the four countries we looked at, in both 2020 and 2024, and in the Core Data Foundations category, which is the most in demand skill category. Excel is also highly valued, with over half of the jobs in our data requiring it. By category, core data foundations including Python, Excel, R and SQL were highest in demand. However, there were also jobs requiring agentic and advanced AI skills, such as ML. Since these jobs were from either 2020 or 2024, more insights into the value of this skill category might be gained from job postings from 2025 or 2026 due to the fast paced evolution of these technologies and shifting employer expectations. 
+
+The results of our exploratory analysis show that Python seems to be the most valued data science skill. It is the most valued skill, not only overall, but also in the four countries we looked at, in both 2020 and 2024, and in the Core Data Foundations category, which is the most in demand skill category. Excel is also highly valued, with over half of the jobs in our data requiring it. By category, core data foundations including Python, Excel, R and SQL were highest in demand. However, there were also jobs requiring agentic and advanced AI skills, such as ML. Since these jobs were from either 2020 or 2024, more insights into the value of this skill category might be gained from job postings from 2025 or 2026 due to the fast paced evolution of these technologies and shifting employer expectations.
+
+With these results, we are better equipped to focus on gaining the desired skills for the job market. As the market evolves with time, further analysis can be done to update the dataset and analysis.
