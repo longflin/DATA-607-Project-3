@@ -1,0 +1,470 @@
+---
+title: "Project 3"
+format: html
+editor: visual
+---
+
+# Project 3 Code Base
+
+------------------------------------------------------------------------
+
+### Group Members:
+
+Long Lin, Emily Elmouaquite, Zihao Yu, Pascal Hermann Kouogang Tafo
+
+------------------------------------------------------------------------
+
+**First Data Source**: https://www.kaggle.com/datasets/joerakhimov/data-scientist-skills
+
+https://raw.githubusercontent.com/longflin/DATA-607-Project-3/refs/heads/main/data_scientist_skills.csv
+
+**Second Data Source**: https://www.kaggle.com/datasets/fahadrehman07/data-science-jobs-and-salary-glassdoor?select=glassdoor_jobs.csv
+
+https://raw.githubusercontent.com/longflin/DATA-607-Project-3/refs/heads/main/Glassdoor_Salary_Cleaned_Version.csv
+
+------------------------------------------------------------------------
+
+## First Data Source
+
+For the first data source, we grabbed a dataset from kaggle on data scientist skills.
+
+We created a data frame from first data source by reading in the .csv file.
+
+```{r}
+library(tidyverse)
+
+url <- "https://raw.githubusercontent.com/longflin/DATA-607-Project-3/refs/heads/main/data_scientist_skills.csv"
+
+ds_skills <- read_csv2(
+  file = url,
+  show_col_types = FALSE,
+  progress = FALSE
+)
+
+head(ds_skills)
+```
+
+Next, we transformed the data from a wide data format to a long data format using pivot_longer on the columns pertaining to skills.
+
+```{r}
+ds_skills_long <- ds_skills |>
+  pivot_longer(
+    cols = c(Statistics:Azure),
+    names_to = "Skills",
+    values_to = "Value"
+  )
+
+head(ds_skills_long)
+```
+
+Next, we removed the columns with information that we were not interested in using the select function.
+
+```{r}
+library(dplyr)
+# Remove unncessary columns from ds_skills_long
+ds_subset <- select(ds_skills_long, -Platform, -Bachelor, -Masters, -PhD, -Communication, -English, -German)
+head(ds_subset)
+```
+
+Next, we removed the rows that had a `0` in the `Value` column because the job did not require the skill.
+
+```{r}
+ds_subset_remove_0s <- ds_subset[ds_subset$Value != 0, ]
+head(ds_subset_remove_0s)
+```
+
+Next, we removed the `Value` Column altogether because all of the values in that column were `1`.
+
+```{r}
+ds_subset_remove_value_column <- select(ds_subset_remove_0s, -Value)
+head(ds_subset_remove_value_column)
+```
+
+Next, we added a column named `Job Title` and assigned a value of `Data Scientist` to each of the rows because the data source is about data scientist jobs.
+
+```{r}
+ds_job_title <- ds_subset_remove_value_column |>
+  mutate(
+    `Job Title` = "Data Scientist"
+  ) %>%
+  relocate(`Job Title`, .before = 1)
+
+head(ds_job_title)
+```
+
+## Second Data Source
+
+For the second data source, we created a dataframe from the .csv file.
+
+```{r}
+library(tidyverse)
+
+url2 <- "https://raw.githubusercontent.com/longflin/DATA-607-Project-3/refs/heads/main/Glassdoor_Salary_Cleaned_Version.csv"
+
+glassdoor_skills <- read_csv(
+  file = url2,
+  show_col_types = FALSE,
+  progress = FALSE
+)
+
+head(glassdoor_skills)
+```
+
+Next, we renamed the columns in the data frame to match with the first data frame's format for the same skills.
+
+```{r}
+glassdoor_skills_rename_columns <- rename(glassdoor_skills, Python = python_yn, R = R_yn, Spark = spark, AWS = aws, Excel = excel)
+
+head(glassdoor_skills_rename_columns)
+```
+
+Next, we used the `pivot_longer` function to convert the data frame from a wide format to a long format.
+
+```{r}
+glassdoor_skills_long <- glassdoor_skills_rename_columns |>
+  pivot_longer(
+    cols = c(Python:Excel),
+    names_to = "Skills",
+    values_to = "Value"
+  )
+
+head(glassdoor_skills_long)
+```
+
+Next, we removed the columns that we were not interested in using the `select` function.
+
+```{r}
+library(dplyr)
+# Remove unncessary columns
+glassdoor_subset <- select(glassdoor_skills_long, -"Salary Estimate", -"Job Description", -Rating, -Headquarters, -Size, -Founded, -"Type of ownership", -Industry, -Sector, -Revenue, -Competitors, -hourly, -employer_provided, -min_salary, -max_salary, -avg_salary, -company_txt, -job_state, -same_state, -age)
+
+head(glassdoor_subset)
+```
+
+Next, we removed the rows that had a `Value` of `0`.
+
+```{r}
+glassdoor_subset_remove_0s <- glassdoor_subset[glassdoor_subset$Value != 0, ]
+
+head(glassdoor_subset_remove_0s)
+```
+
+Next, we removed the `Value` column because the only rows remaining had a `Value` of `1`.
+
+```{r}
+glassdoor_remove_value_column <- select(glassdoor_subset_remove_0s, -Value)
+
+head(glassdoor_remove_value_column)
+```
+
+Next, we filtered jobs based on if they had the word `data` in the `Job Title` or not, in order to get relevant job listings. We did this using the `stringr` library and the `str_detect` function.
+
+```{r}
+library(stringr)
+glassdoor_remove_value_column$`has_data_in_name` <- str_detect(glassdoor_remove_value_column$`Job Title`, "Data")
+
+head(glassdoor_remove_value_column)
+```
+
+Next, we removed the columns that did not have the word `data` in the `Job Title`.
+
+```{r}
+glassdoor_data_jobs_remove_false <- glassdoor_remove_value_column[glassdoor_remove_value_column$has_data_in_name != FALSE, ]
+
+head(glassdoor_data_jobs_remove_false)
+```
+
+Next, we removed the `has_data_in_name` column because the value is `TRUE` for all of the rows since we removed the columns that had a value of `FALSE`.
+
+```{r}
+glassdoor_final <- select(glassdoor_data_jobs_remove_false, -has_data_in_name)
+
+head(glassdoor_final)
+```
+
+## Join Data Frames
+
+Before joining the data frames, we made the format of the first data frame similar to that of the second data frame.
+
+```{r}
+ds_final <- rename(ds_job_title, "Company Name" = Company, Location = Country)
+head(ds_final)
+```
+
+Next, we joined the two data frames using the `dplyr` library and the `rbind` function.
+
+```{r}
+library(dplyr)
+
+combined_df <- rbind(ds_final, glassdoor_final)
+
+head(combined_df)
+colnames(combined_df)
+
+```
+
+## Database
+
+```{r}
+#Create database tables
+#Job
+jobTable <- combined_df %>%
+  distinct(`Job Title`, `Company Name`, Location) %>%
+  mutate(jobId = row_number()) %>%
+  rename(jobName = `Job Title`)
+#Skill
+skillTable <- combined_df %>%
+  distinct(Skills) %>%
+  mutate(skillId = row_number()) %>%
+  rename(skillName = Skills)
+#jobSkill
+jobSkillTable <- combined_df %>%
+  left_join(jobTable,
+            by = c("Job Title" = "jobName",
+                   "Company Name",
+                   "Location")) %>%
+  left_join(skillTable,
+            by = c("Skills" = "skillName")) %>%
+  select(jobId, skillId) %>%
+  distinct()
+
+#Load database/ SQL libraries
+library(DBI)
+library(RSQLite)
+
+#Connect to database
+con <- dbConnect(SQLite(), "ds_jobs.db")
+
+#Create db tables
+dbExecute(con, "DROP TABLE IF EXISTS job;")
+dbExecute(con, "DROP TABLE IF EXISTS skill;")
+dbExecute(con, "DROP TABLE IF EXISTS jobSkill;")
+
+dbExecute(con, "
+CREATE TABLE job (
+  jobId INTEGER PRIMARY KEY,
+  jobName TEXT,
+  location TEXT
+);
+")
+dbExecute(con, "
+CREATE TABLE skill (
+  skillId INTEGER PRIMARY KEY,
+  skillName TEXT
+);
+")
+dbExecute(con, "
+CREATE TABLE jobSkill (
+  jobId INTEGER,
+  skillId INTEGER,
+  PRIMARY KEY (jobId, skillId),
+  FOREIGN KEY (jobId) REFERENCES Job(jobId),
+  FOREIGN KEY (skillId) REFERENCES Skill(skillId)
+);
+")
+
+#Populate tables with data
+dbWriteTable(con, "job", jobTable %>% select(jobId, jobName, location = Location),append = TRUE)
+dbWriteTable(con, "skill", skillTable %>% select(skillId, skillName), append = TRUE)
+dbWriteTable(con, "jobSkill", jobSkillTable, append = TRUE)
+```
+
+```{r}
+#Check
+DBI::dbListTables(con)
+head(DBI::dbReadTable(con, "job"))
+head(DBI::dbReadTable(con, "skill"))
+head(DBI::dbReadTable(con, "jobSkill"))
+```
+
+## Analysis
+
+### Top Ten Most Valued Skills
+
+```{r}
+combined_df %>%
+  count(Skills, sort = TRUE) %>%
+  head(10) %>%
+  ggplot(aes(x = reorder(Skills, n), y = n, fill = Skills)) +
+  geom_col(show.legend = FALSE) +
+  geom_text(aes(label = n), 
+            hjust = -0.05,
+            size = 4,
+            color = "black") +
+  coord_flip() +
+  labs(title = "Top 10 Most Demanded Skills", x = "Skill", y = "Frequency")+
+  theme_minimal()
+```
+
+Based on the plot above for the combined data set, we're able to see the top 10 skills that are in demand. Python is the clear leader with Excel and Spark as the second and third most in demand, respectively.
+
+### Data Science Skills Clustering by Category
+
+```{r}
+
+library(ggplot2)
+library(dplyr)
+
+# Let's Define the 2026 Data Science Skills Framework
+skill_framework <- data.frame(
+  Skills = c("AI", "ML", "DL", "NLP", "Pytorch", "Tensorflow", "Keras", 
+             "AWS", "Azure", "Docker", "Spark", "Hadoop",              
+             "Python", "R", "SQL", "Statistics", "Analytics",          
+             "Visualization", "Matlab", "SAS", "Excel", "Optimization"),
+  Cluster = c(rep("Agentic & Advanced AI", 7),
+              rep("Cloud & Infrastructure", 5),
+              rep("Core Data Foundations", 10))
+)
+
+# 1. Aggregate frequencies from the raw combined data
+# This ensures we have both the "Skills" and "Frequency" columns
+
+skill_counts <- combined_df %>%
+  group_by(Skills) %>%
+  summarise(Frequency = n(), .groups = "drop")
+
+# 2. Join with the 2026 Skill Framework to add the Cluster variable
+plot_ready_data <- skill_counts %>%
+  left_join(skill_framework, by = "Skills") %>%
+  # Remove any skills not categorized in our 2026 clusters
+  filter(!is.na(Cluster))
+
+# 3. Run the Visualization
+
+ggplot(plot_ready_data, aes(x = reorder(Skills, Frequency), y = Frequency, fill = Cluster)) +
+  geom_bar(stat = "identity", alpha = 0.85) +
+  geom_text(aes(label = Frequency), 
+            hjust = -0.2, 
+            size = 3.5, 
+            color = "gray30") +
+  coord_flip() +
+  facet_grid(Cluster ~ ., scales = "free_y", space = "free_y") +
+  scale_fill_manual(values = c(
+    "Agentic & Advanced AI"  = "#E63946", 
+    "Cloud & Infrastructure" = "#1D3557", 
+    "Core Data Foundations"  = "#A8DADC"
+  )) +
+  # Use expansion to ensure the numeric labels fit on the screen
+  
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) + 
+  labs(
+    title    = "Valuable Skills Demand By Category",
+    subtitle = "Strategic clustering of data science requirements ",
+    x        = "Specific Skill",
+    y        = "Frequency in Dataset"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(strip.text.y   = element_text(angle = 0, face = "bold"),
+        legend.position = "none")
+```
+
+Based on this chart result, while the core foundational skills like Python and Excel remain the most frequent requirements in job postings, the market is strategically pivoting toward specialized clusters in Agentic AI and Cloud Infrastructure.
+
+### Skills Valued in 2020 vs 2024
+
+```{r}
+#Add year columns to final data frames for both sources
+df1_final <- ds_final %>% mutate(Year = "2020")
+df2_final <- glassdoor_final %>% mutate(Year = "2024")
+#Find skills shared between both data sources
+shared_skills <- intersect(df1_final$Skills, df2_final$Skills)
+#Create new data frame with years & only keeping the shared skills
+dfForPlot <- bind_rows(df1_final, df2_final) %>%
+  filter(Skills %in% shared_skills)
+#Create another new data frame with proportions
+dfForPlotProp <- dfForPlot %>%
+  count(Year, Skills) %>%
+  group_by(Year) %>%
+  mutate(prop = n / sum(n))
+#Plot
+ggplot(dfForPlotProp, aes(x = reorder(Skills, prop), y = prop, fill = Year)) + 
+  geom_col(position = "dodge") + 
+  coord_flip() + 
+  labs(title = "Proportion of Jobs Requiring Skills (2020 vs 2024)",
+  x = "Skill",
+  y = "Proportion of Job Listings") +
+  scale_fill_manual(values = c("2020" = "orchid","2024" = "lightpink")) +
+  geom_text(aes(label = round(prop, 2)),
+          position = position_dodge(width = 0.9),
+          hjust = -0.1,
+          size = 3)
+```
+
+The plot shows the commonly shared skills found within both of the data sets, and the proportion of jobs that required them. The first data source that we used was from 2020, while the second one was from 2024. In both years, about half of the jobs required Python. The proportion of jobs requiring Spark increased from 2020, when about 9% of jobs required it, to 2024, when about 24% of jobs required it. Similarly, the proportion of jobs requiring AWS increased from 5% to 23%. On the other hand, the proportion of jobs requiring R decreased from 33% in 2020, to 0% in 2024 based on this selection of jobs.
+
+### A Comparative Analysis of Skills Needs Across Different Countries
+```{r}
+location_list <-
+  combined_df |>
+  filter(!is.na(Location), Location != "") |>
+  mutate(Location = str_trim(Location)) |>
+  distinct(Location) |>
+  arrange(Location)
+
+location_list
+```
+
+```{r}
+countries_count <-
+  combined_df |>
+  filter(!is.na(Location), Location != "") |>
+  mutate(
+    Location = str_trim(Location),
+    Location = if_else(
+      str_detect(Location, ",\\s*[A-Z]{2}$"),
+      "United States",
+      Location
+      )
+) |>
+  count(Location, sort = TRUE)
+
+countries_count
+```
+
+```{r}
+top10_skills_by_country <- 
+   combined_df |>
+   filter(!is.na(Location), Location != "") |>
+   mutate(
+     Location = str_trim(Location),
+     Country = case_when(
+       Location %in% c("Germany", "Switzerland", "Austria") ~ Location,
+       str_detect(Location, ",\\s*[A-Z]{2}$") ~ "United States"
+     )
+   ) |>
+   filter(!is.na(Country)) |>
+   count(Country, Skills, sort = TRUE) |>
+   group_by(Country) |>
+   slice_head(n = 10) |>
+   ungroup()
+
+ top10_skills_by_country
+```
+
+```{r}
+library(tidytext)
+ggplot(
+   top10_skills_by_country,
+   aes(x = n, y = reorder_within(Skills, n, Country), fill = Country)
+ ) +
+   geom_col(show.legend = FALSE) +
+   geom_text(aes(label = n), hjust = -0.1, size = 3) +
+   facet_wrap(~ Country, scales = "free_y") +
+   scale_y_reordered() +
+   labs(
+     title = "Top 10 Skill Requirements by Country",
+     x = "Count",
+     y = "Skill"
+   ) +
+   theme_minimal() +
+   expand_limits(x = max(top10_skills_by_country$n) * 1.05)
+```
+
+With the cleaning data, one dataset includes Germany, Switzerland, and Austria , the other set of data is from the states in the United States. After get the top 10 skills for the three countries, then compiled the top 10 skills for each U.S. state to represent the U.S. data.
+
+By comparing the skills across the four countries, although there are differences in skill requirements, it is clear that Python is the most common.
+
+In the U.S., only two states reported a need for R, whereas in the other three countries, R ranked relatively high—second in both Austria and Germany; in the U.S., Excel ranked second.
+
+## Conclusion
+The results of our exploratory analysis show that Python seems to be the most valued data science skill. It is the most valued skill, not only overall, but also in the four countries we looked at, in both 2020 and 2024, and in the Core Data Foundations category, which is the most in demand skill category. Excel is also highly valued, with over half of the jobs in our data requiring it. By category, core data foundations including Python, Excel, R and SQL were highest in demand. However, there were also jobs requiring agentic and advanced AI skills, such as ML. Since these jobs were from either 2020 or 2024, more insights into the value of this skill category might be gained from job postings from 2025 or 2026 due to the fast paced evolution of these technologies and shifting employer expectations. 
