@@ -233,7 +233,7 @@ library(DBI)
 library(RSQLite)
 
 #Connect to database
-con <- dbConnect(SQLite(), "ds_jobs.db")
+con <- dbConnect(SQLite(), "ds_jobs_Summary.db")
 
 #Create db tables
 dbExecute(con, "
@@ -292,10 +292,62 @@ combined_df %>%
 
 Based on the plot above for the combined data set, we're able to see the top 10 skills that are in demand. Python is the clear leader with Excel and Spark as the second and third most in demand, respectively.
 
+
+## Comparing Jobs Requiring Skills shared between our two data sources.
+
+```{r}
+#Add year columns to final data frames for both sources
+df1_final <- ds_job_title %>% mutate(Year = "2020")
+df2_final <- glassdoor_final %>% mutate(Year = "2024")
+#Find skills shared between both data sources
+shared_skills <- intersect(df1_final$Skills, df2_final$Skills)
+#Create new data frame with years & only keeping the shared skills
+dfForPlot <- bind_rows(df1_final, df2_final) %>%
+  filter(Skills %in% shared_skills)
+#Create another new data frame with proportions
+dfForPlotProp <- dfForPlot %>%
+  count(Year, Skills) %>%
+  group_by(Year) %>%
+  mutate(prop = n / sum(n))
+#Plot
+ggplot(dfForPlotProp, aes(x = reorder(Skills, prop), y = prop, fill = Year)) + 
+  geom_col(position = "dodge") + 
+  coord_flip() + 
+  labs(title = "Proportion of Jobs Requiring Skills (2020 vs 2024)",
+  x = "Skill",
+  y = "Proportion of Job Listings") +
+  scale_fill_manual(values = c("2020" = "orchid","2024" = "lightpink")) +
+  geom_text(aes(label = round(prop, 2)),
+          position = position_dodge(width = 0.9),
+          hjust = -0.1,
+          size = 3)
+  theme_minimal()
+```
+
+### Interpretation
+
+The plot shows the commonly shared skills found within both of the data sets, and the proportion of jobs that required them. The first data source that we used was from 2020, while the second one was from 2024. In both years, about half of the jobs required Python. The proportion of jobs requiring Spark increased from 2020, when about 9% of jobs required it, to 2024, when about 24% of jobs required it. Similarly, the proportion of jobs requiring AWS increased from 5% to 23%. On the other hand, the proportion of jobs requiring R decreased from 33% in 2020, to 0% in 2024 based on this selection of jobs.
+
+
+### Data Science Skills Clustering by category
+
+
 ```{r}
 
 library(ggplot2)
 library(dplyr)
+
+# Let's Define the 2026 Data Science Skills Framework
+
+skill_framework <- data.frame(
+  Skills = c("AI", "ML", "DL", "NLP", "Pytorch", "Tensorflow", "Keras", 
+             "AWS", "Azure", "Docker", "Spark", "Hadoop",              
+             "Python", "R", "SQL", "Statistics", "Analytics",          
+             "Visualization", "Matlab", "SAS", "Excel", "Optimization"),
+  Cluster = c(rep("Agentic & Advanced AI", 7),
+              rep("Cloud & Infrastructure", 5),
+              rep("Core Data Foundations", 10))
+)
 
 # 1. Aggregate frequencies from the raw combined data
 # This ensures we have both the "Skills" and "Frequency" columns
@@ -305,9 +357,10 @@ skill_counts <- combined_df %>%
   summarise(Frequency = n(), .groups = "drop")
 
 # 2. Join with the 2026 Skill Framework to add the Cluster variable
+
 plot_ready_data <- skill_counts %>%
   left_join(skill_framework, by = "Skills") %>%
-  # Remove any skills not categorized in our 2026 clusters
+  # Remove any skills not categorized in our clusters
   filter(!is.na(Cluster))
 
 # 3. Run the Visualization
@@ -339,35 +392,14 @@ ggplot(plot_ready_data, aes(x = reorder(Skills, Frequency), y = Frequency, fill 
         legend.position = "none")
 ```
 
+
 Based on this chart result, while the core foundational skills like Python and Excel remain the most frequent requirements in job postings, the market is strategically pivoting toward specialized clusters in Agentic AI and Cloud Infrastructure.
 
-```{r}
-#Add year columns to final data frames for both sources
-df1_final <- df1_final %>% mutate(Year = "2020")
-df2_final <- df2_final %>% mutate(Year = "2024")
-#Find skills shared between both data sources
-shared_skills <- intersect(df1_final$Skills, df2_final$Skills)
-#Create new data frame with years & only keeping the shared skills
-dfForPlot <- bind_rows(df1_final, df2_final) %>%
-  filter(Skills %in% shared_skills)
-#Create another new data frame with proportions
-dfForPlotProp <- dfForPlot %>%
-  count(Year, Skills) %>%
-  group_by(Year) %>%
-  mutate(prop = n / sum(n))
-#Plot
-ggplot(dfForPlotProp, aes(x = reorder(Skills, prop), y = prop, fill = Year)) + 
-  geom_col(position = "dodge") + 
-  coord_flip() + 
-  labs(title = "Proportion of Jobs Requiring Skills (2020 vs 2024)",
-  x = "Skill",
-  y = "Proportion of Job Listings") +
-  scale_fill_manual(values = c("2020" = "orchid","2024" = "lightpink")) +
-  geom_text(aes(label = round(prop, 2)),
-          position = position_dodge(width = 0.9),
-          hjust = -0.1,
-          size = 3)
-  theme_minimal()
-```
 
-The plot shows the commonly shared skills found within both of the data sets, and the proportion of jobs that required them. The first data source that we used was from 2020, while the second one was from 2024. In both years, about half of the jobs required Python. The proportion of jobs requiring Spark increased from 2020, when about 9% of jobs required it, to 2024, when about 24% of jobs required it. Similarly, the proportion of jobs requiring AWS increased from 5% to 23%. On the other hand, the proportion of jobs requiring R decreased from 33% in 2020, to 0% in 2024 based on this selection of jobs. 
+
+
+
+
+
+
+
